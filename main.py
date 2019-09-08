@@ -36,6 +36,11 @@ class Framework(tk.Tk):
         # 关闭日报输出框按钮
         self.button_close_daily_report_text = tk.Button(self, text="close", command=self.__command_button_close_daily_report_text)
         self.button_close_daily_report_text.grid_forget()
+        # save和load按钮
+        self.button_save_daily_report = tk.Button(self, text="save", command=self.__command_button_save_daily_report)
+        self.button_save_daily_report.grid(row=0, column=3)
+        self.button_load_daily_report = tk.Button(self, text="load", command=self.__command_button_load_daily_report)
+        self.button_load_daily_report.grid(row=0, column=4)
 
     def __command_button_start_task(self):
         if DailyReport.task_status == "running":
@@ -77,6 +82,16 @@ class Framework(tk.Tk):
         self.text_daily_report.grid_forget()
         self.button_regenerate_daily_report.grid_forget()
         self.button_close_daily_report_text.grid_forget()
+
+    def __command_button_save_daily_report(self):
+        file = open("data.txt", "w")
+        file.write(DailyReport.task_details_string)
+        file.close()
+
+    def __command_button_load_daily_report(self):
+        file = open("data.txt", "r")
+        DailyReport.task_details_string = file.read()
+        file.close()
 
     def __on_closing(self):
         """关闭确认"""
@@ -134,6 +149,7 @@ class DailyReport:
         for single_task_string in task_string_array:
             single_time_string = single_task_string.split(" ", 1)
             single_time_string_array = single_time_string[0].split("~")
+            print(single_time_string_array)
             total_time += get_time_difference(single_time_string_array[0], single_time_string_array[1])
             # print(single_time_string_array)
 
