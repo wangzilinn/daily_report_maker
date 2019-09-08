@@ -84,6 +84,8 @@ class Framework(tk.Tk):
         self.button_close_daily_report_text.grid_forget()
 
     def __command_button_save_daily_report(self):
+        if DailyReport.task_status == "running":
+            self.__command_button_stop_task()
         file = open("data.txt", "w")
         file.write(DailyReport.task_details_string)
         file.close()
@@ -149,7 +151,7 @@ class DailyReport:
         for single_task_string in task_string_array:
             single_time_string = single_task_string.split(" ", 1)
             single_time_string_array = single_time_string[0].split("~")
-            print(single_time_string_array)
+            # print(single_time_string_array)
             total_time += get_time_difference(single_time_string_array[0], single_time_string_array[1])
             # print(single_time_string_array)
 
